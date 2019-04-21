@@ -9,7 +9,8 @@ class UserManager(BaseUserManager):
         """
         Create and saves a new user
         """
-        if not email: raise ValueError('New users require an email address.')
+        if not email:
+            raise ValueError('New users require an email address.')
         user = self.model(email=self.normalize_email(email), **kwargs)
         # user = self.model(email=email, **kwargs)
         user.set_password(password)
@@ -33,10 +34,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     """
     Custom user model that supports email instead of username
     """
-    email     = models.EmailField(max_length=255, unique=True)
-    name      = models.CharField(max_length=255)
+    email = models.EmailField(max_length=255, unique=True)
+    name = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
-    is_staff  = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False)
 
     objects = UserManager()
 

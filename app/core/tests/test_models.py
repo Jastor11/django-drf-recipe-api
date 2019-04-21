@@ -23,7 +23,7 @@ class ModelsTest(TestCase):
         Test that user has normalized email
         """
         email = 'jeff@ASTOR.io'
-        user  = get_user_model().objects.create_user(email,'testpass123')
+        user = get_user_model().objects.create_user(email, 'testpass123')
 
         self.assertEqual(user.email, email.lower())
 
@@ -33,7 +33,6 @@ class ModelsTest(TestCase):
             email = None
             user = get_user_model().objects.create_user(email, 'testpass123')
             return user
-
 
     def test_can_create_super_user(self):
         """
