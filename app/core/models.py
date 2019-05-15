@@ -1,6 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, \
-                                       PermissionsMixin
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import PermissionsMixin
+from django.conf import settings
 
 
 class UserManager(BaseUserManager):
@@ -42,3 +43,31 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
+
+
+class Tag(models.Model):
+    """
+    Custom tag model that stores a string for each recipe tag
+    """
+    name = models.CharField(max_length=255)
+    user = models.ForeignKey(
+        #  proper way to get user model from django
+        settings.AUTH_USER_MODEL,
+        #  if we delete the user, delete the tags as well
+        on_delete=models.CASCADE
+    )
+
+    def __str__(self):
+        return self.name
+
+
+class Ingredient(models.Model):
+    """Custom ingredient model that stores a string for each ingredient"""
+    name = models.CharField(max_length=255)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+    )
+
+    def __str__(self):
+        return self.name
